@@ -59,10 +59,12 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 This Laravel application can be deployed to various platforms. **Note: Netlify does NOT support Laravel/PHP applications.**
 
 ### Recommended Hosting Platforms:
-- **Render.com** (Free tier available) - [See DEPLOYMENT.md](DEPLOYMENT.md)
-- **Railway.app** (Easy setup)
-- **Fly.io** (Good performance)
-- **DigitalOcean App Platform**
+- **Render.com** ⭐ **Completely Free, No Credit Card Required!** - [See FREE_HOSTING_GUIDE.md](FREE_HOSTING_GUIDE.md)
+- **Railway.app** (Requires card for free tier)
+- **Fly.io** (Free tier available)
+- **DigitalOcean App Platform** (Paid)
+
+**For completely free hosting without credit card, see [FREE_HOSTING_GUIDE.md](FREE_HOSTING_GUIDE.md)**
 
 For detailed deployment instructions, see [DEPLOYMENT.md](DEPLOYMENT.md)
 

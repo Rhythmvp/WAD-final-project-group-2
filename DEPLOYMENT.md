@@ -2,7 +2,7 @@
 
 ## 🚀 Best Hosting Options for Laravel
 
-### Option 1: Render.com (Recommended - Free Tier Available)
+### ⭐ Option 1: Render.com (Recommended - Completely Free, No Card Required!)
 
 **Steps:**
 1. Go to [render.com](https://render.com) and sign up
@@ -35,9 +35,13 @@
 9. Deploy!
 
 **Free Tier Limits:**
-- 750 hours/month (enough for most projects)
-- Spins down after 15 min inactivity (first request may be slow)
-- 512MB RAM
+- ✅ **No credit card required!**
+- 750 hours/month (enough for 24/7 operation)
+- Spins down after 15 min inactivity (first request takes 30-60 sec)
+- 512MB RAM (enough for small apps)
+- **Perfect for projects, demos, and portfolios!**
+
+**Note:** The spin-down is the only limitation, but it's acceptable for free hosting. See `FREE_HOSTING_GUIDE.md` for details.
 
 ---
 
