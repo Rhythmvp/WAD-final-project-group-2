@@ -54,6 +54,40 @@ In order to ensure that the Laravel community is welcoming to all, please review
 
 If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
+## 🚀 Deployment
+
+This Laravel application can be deployed to various platforms. **Note: Netlify does NOT support Laravel/PHP applications.**
+
+### Recommended Hosting Platforms:
+- **Render.com** (Free tier available) - [See DEPLOYMENT.md](DEPLOYMENT.md)
+- **Railway.app** (Easy setup)
+- **Fly.io** (Good performance)
+- **DigitalOcean App Platform**
+
+For detailed deployment instructions, see [DEPLOYMENT.md](DEPLOYMENT.md)
+
+### Quick Deploy to Render:
+1. Push your code to GitHub
+2. Go to [render.com](https://render.com)
+3. Connect your GitHub repository
+4. Create a new Web Service
+5. Set build command: `composer install --no-dev --optimize-autoloader`
+6. Set start command: `php artisan serve --host=0.0.0.0 --port=$PORT`
+7. Add environment variables (see DEPLOYMENT.md)
+8. Deploy!
+
+## 📋 Project: TelU Mind
+
+A comprehensive campus wellness platform for mental health, physical fitness, and community support.
+
+### Features:
+- 🧠 Mental Health Assessment with AI-powered insights (Gemini API)
+- 📝 Personal Diary/Journal
+- 💪 Health Challenges
+- 🏥 Campus Clinics Directory
+- 🤝 Community Forum
+- 👥 Admin User Management
+
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
