@@ -14,7 +14,7 @@ class QuizController extends Controller
         $questions = QuizQuestion::where('is_active', true)
             ->orderBy('order')
             ->get();
-        return view('quiz.index', compact('questions'));
+        return view('quiz.quiz_index', compact('questions'));
     }
 
     public function submit(Request $request)
@@ -49,9 +49,19 @@ class QuizController extends Controller
         try {
             $apiKey = env('GEMINI_API_KEY');
             
-            $prompt = "Based on a mental health assessment with a total score of {$score} out of " . 
-                     (count($answers) * 5) . ", provide supportive guidance and recommendations. " .
-                     "Keep the response empathetic, helpful, and under 300 words.";
+            if (empty($apiKey)) {
+                \Log::warning('GEMINI_API_KEY is not set in .env file');
+                return 'Thank you for completing the assessment. Please consider speaking with a mental health professional for personalized guidance.';
+            }
+            
+            $maxScore = count($answers) * 5;
+            $percentage = ($score / $maxScore) * 100;
+            
+            $prompt = "You are a compassionate mental health counselor. A student has completed a mental health assessment and scored {$score} out of {$maxScore} ({$percentage}%). " .
+                     "Provide supportive, empathetic guidance and practical recommendations. " .
+                     "Keep the response warm, encouraging, and under 300 words. " .
+                     "Focus on actionable steps they can take to improve their wellbeing. " .
+                     "Do not provide medical diagnoses, but offer general wellness advice.";
 
             $response = Http::timeout(30)->post(
                 "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={$apiKey}",
@@ -68,13 +78,29 @@ class QuizController extends Controller
 
             if ($response->successful()) {
                 $data = $response->json();
-                return $data['candidates'][0]['content']['parts'][0]['text'] ?? 'Unable to generate response.';
+                
+                // Handle different response structures
+                if (isset($data['candidates'][0]['content']['parts'][0]['text'])) {
+                    return $data['candidates'][0]['content']['parts'][0]['text'];
+                } elseif (isset($data['candidates'][0]['content']['parts'][0])) {
+                    return $data['candidates'][0]['content']['parts'][0];
+                }
+                
+                \Log::warning('Unexpected Gemini API response structure', ['response' => $data]);
+                return 'Thank you for completing the assessment. Please consider speaking with a mental health professional for personalized guidance.';
             }
 
+            \Log::error('Gemini API request failed', [
+                'status' => $response->status(),
+                'body' => $response->body()
+            ]);
+            
             return 'Thank you for completing the assessment. Please consider speaking with a mental health professional for personalized guidance.';
             
         } catch (\Exception $e) {
-            \Log::error('Gemini API Error: ' . $e->getMessage());
+            \Log::error('Gemini API Error: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString()
+            ]);
             return 'Thank you for completing the assessment. Please consider speaking with a mental health professional for personalized guidance.';
         }
     }

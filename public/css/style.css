@@ -1,34 +1,359 @@
-body {
-    background: #F1F8F1; /* light green background like figma */
+/* ============================================
+   TelU Mind - Design System CSS Variables
+   ============================================ */
+
+:root {
+    /* Primary Colors */
+    --primary-purple: #667eea;
+    --primary-dark: #5568d3;
+    --secondary-purple: #764ba2;
+    
+    /* Gradient */
+    --gradient-main: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    
+    /* Background Colors */
+    --bg-main: #f5f7fa;
+    --bg-white: #ffffff;
+    --bg-light-gray: #fafbfc;
+    
+    /* Text Colors */
+    --text-primary: #333333;
+    --text-secondary: #555555;
+    --text-muted: #888888;
+    --text-light: #666666;
+    
+    /* Status Colors - Success */
+    --success-bg: #e8f5e9;
+    --success-text: #2e7d32;
+    --success-border: #4caf50;
+    --success: #4caf50;
+    
+    /* Status Colors - Error */
+    --error-bg: #ffebee;
+    --error-text: #c62828;
+    --error-border: #f44336;
+    --error: #f44336;
+    
+    /* Status Colors - Warning */
+    --warning-bg: #fff3e0;
+    --warning-text: #e65100;
+    --warning-border: #ff9800;
+    --warning: #ff9800;
+    
+    /* Status Colors - Info */
+    --info-bg: #e3f2fd;
+    --info-text: #1565c0;
+    --info-border: #2196f3;
+    --info: #2196f3;
+    
+    /* Feature Section Colors */
+    --mind-primary: #667eea;
+    --mind-light: #e8eaf6;
+    --body-primary: #ff6b6b;
+    --body-light: #ffe0e0;
+    --connect-primary: #4ecdc4;
+    --connect-light: #e0f7f5;
+    
+    /* Mood Tracker Colors */
+    --mood-very-bad: #f44336;
+    --mood-bad: #ff9800;
+    --mood-okay: #ffc107;
+    --mood-good: #8bc34a;
+    --mood-excellent: #4caf50;
+    
+    /* Border & Shadow Colors */
+    --border-light: #e0e0e0;
+    --border-medium: #cccccc;
+    --border-dark: #999999;
+    
+    /* Shadows */
+    --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 5px 15px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.2);
+    
+    /* Typography */
+    --font-primary: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --font-monospace: 'Courier New', monospace;
+    --font-xs: 0.75rem;
+    --font-sm: 0.875rem;
+    --font-base: 1rem;
+    --font-lg: 1.125rem;
+    --font-xl: 1.25rem;
+    --font-2xl: 1.5rem;
+    --font-3xl: 2rem;
+    --font-4xl: 3rem;
+    --font-normal: 400;
+    --font-medium: 500;
+    --font-semibold: 600;
+    --font-bold: 700;
+    
+    /* Spacing */
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.25rem;
+    --space-6: 1.5rem;
+    --space-8: 2rem;
+    --space-10: 2.5rem;
+    --space-12: 3rem;
+    
+    /* Border Radius */
+    --radius-sm: 5px;
+    --radius-md: 8px;
+    --radius-lg: 10px;
+    --radius-xl: 15px;
+    --radius-2xl: 20px;
+    --radius-full: 50px;
+    
+    /* Max Widths */
+    --max-width-sm: 450px;
+    --max-width-md: 800px;
+    --max-width-lg: 1000px;
+    --max-width-xl: 1200px;
+    
+    /* Responsive Breakpoints */
+    --breakpoint-sm: 576px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 992px;
+    --breakpoint-xl: 1200px;
 }
+
+/* ============================================
+   Base Styles
+   ============================================ */
+
+body {
+    font-family: var(--font-primary);
+    background: var(--bg-main);
+    color: var(--text-primary);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+/* ============================================
+   Card Component
+   ============================================ */
 
 .card {
-    background: white;
-    padding: 25px;
-    border-radius: 14px;
-    box-shadow: 0px 3px 10px rgba(0,0,0,0.08);
+    background: var(--bg-white);
+    padding: var(--space-8);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
+    transition: transform 0.3s ease;
 }
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* ============================================
+   Button Components
+   ============================================ */
 
 .btn {
-    background: #8DBF86;  /* light soft green */
-    padding: 8px 20px;
-    border-radius: 8px;
+    display: inline-block;
+    padding: var(--space-4) var(--space-8);
+    border-radius: var(--radius-md);
+    font-weight: var(--font-bold);
     text-decoration: none;
-    color: white;
-    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    font-size: var(--font-base);
 }
 
-.btn:hover {
-    background: #7BAC75;
+.btn-primary {
+    background: var(--primary-purple);
+    color: white;
 }
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--primary-purple);
+    border: 2px solid var(--primary-purple);
+}
+
+.btn-secondary:hover {
+    background: var(--primary-purple);
+    color: white;
+}
+
+.btn-success {
+    background: var(--success);
+    color: white;
+}
+
+.btn-success:hover {
+    background: var(--success-border);
+}
+
+.btn-danger {
+    background: var(--error);
+    color: white;
+}
+
+.btn-danger:hover {
+    background: var(--error-border);
+}
+
+/* ============================================
+   Form Components
+   ============================================ */
+
+.form-input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 2px solid var(--border-light);
+    border-radius: var(--radius-md);
+    font-size: var(--font-base);
+    font-family: var(--font-primary);
+    transition: border-color 0.3s ease;
+}
+
+.form-input:focus {
+    border-color: var(--primary-purple);
+    outline: none;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: var(--space-2);
+    color: var(--text-secondary);
+    font-weight: var(--font-medium);
+}
+
+/* ============================================
+   Alert/Message Boxes
+   ============================================ */
+
+.alert {
+    padding: var(--space-4);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-4);
+    border-left: 4px solid;
+}
+
+.alert-success {
+    background: var(--success-bg);
+    color: var(--success-text);
+    border-left-color: var(--success-border);
+}
+
+.alert-error {
+    background: var(--error-bg);
+    color: var(--error-text);
+    border-left-color: var(--error-border);
+}
+
+.alert-warning {
+    background: var(--warning-bg);
+    color: var(--warning-text);
+    border-left-color: var(--warning-border);
+}
+
+.alert-info {
+    background: var(--info-bg);
+    color: var(--info-text);
+    border-left-color: var(--info-border);
+}
+
+/* ============================================
+   Navbar Component
+   ============================================ */
+
+.navbar {
+    background: var(--bg-white);
+    padding: var(--space-4) var(--space-8);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: var(--font-2xl);
+    font-weight: var(--font-bold);
+    color: var(--primary-purple);
+    text-decoration: none;
+}
+
+/* ============================================
+   Forum Card
+   ============================================ */
 
 .forum-card {
-    padding: 30px;
+    padding: var(--space-8);
     display: block;
-    color: black;
+    color: var(--text-primary);
     text-decoration: none;
+    transition: background-color 0.3s ease;
 }
 
 .forum-card:hover {
-    background: #E8F5E7;
+    background: var(--connect-light);
+}
+
+/* ============================================
+   Utility Classes
+   ============================================ */
+
+.text-primary {
+    color: var(--text-primary);
+}
+
+.text-secondary {
+    color: var(--text-secondary);
+}
+
+.text-muted {
+    color: var(--text-muted);
+}
+
+.bg-primary {
+    background: var(--primary-purple);
+}
+
+.bg-secondary {
+    background: var(--secondary-purple);
+}
+
+.shadow-sm {
+    box-shadow: var(--shadow-sm);
+}
+
+.shadow-md {
+    box-shadow: var(--shadow-md);
+}
+
+.shadow-lg {
+    box-shadow: var(--shadow-lg);
+}
+
+/* ============================================
+   Responsive Design
+   ============================================ */
+
+@media (max-width: 768px) {
+    .card {
+        padding: var(--space-4);
+    }
+    
+    .btn {
+        padding: var(--space-3) var(--space-6);
+        font-size: var(--font-sm);
+    }
+    
+    .navbar {
+        padding: var(--space-3) var(--space-4);
+        flex-direction: column;
+        gap: var(--space-4);
+    }
 }

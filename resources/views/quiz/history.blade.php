@@ -1,58 +1,71 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mx-auto px-4 py-8">
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-serif">Assessment History</h1>
+<div class="container" style="max-width: 1000px; margin: 2rem auto;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+        <h1 style="font-size: var(--font-3xl); font-weight: var(--font-bold); color: var(--text-primary); margin: 0;">
+            📊 Assessment History
+        </h1>
         <a href="{{ route('quiz.index') }}" 
-           class="px-6 py-2 bg-[#c4d5b8] hover:bg-[#b0c5a4] rounded-full transition">
+           class="btn btn-primary"
+           style="padding: 0.75rem 1.5rem;">
             New Assessment
         </a>
     </div>
 
     @if($results->isEmpty())
-    <div class="bg-white rounded-lg shadow p-12 text-center">
-        <p class="text-gray-500 text-lg mb-4">You haven't taken any assessments yet.</p>
+    <div class="card" style="text-align: center; padding: 4rem;">
+        <div style="font-size: 4rem; margin-bottom: 1rem;">📝</div>
+        <p style="color: var(--text-secondary); font-size: var(--font-lg); margin-bottom: 2rem;">
+            You haven't taken any assessments yet.
+        </p>
         <a href="{{ route('quiz.index') }}" 
-           class="inline-block px-6 py-3 bg-[#5a6c4f] text-white rounded-full hover:bg-[#4a5c3f] transition">
+           class="btn btn-primary"
+           style="padding: 1rem 2rem; font-size: var(--font-lg);">
             Take Your First Assessment
         </a>
     </div>
     @else
-    <div class="space-y-4">
+    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
         @foreach($results as $result)
-        <div class="bg-white rounded-lg shadow hover:shadow-lg transition p-6">
-            <div class="flex items-center justify-between mb-4">
+        <div class="card" style="transition: transform 0.3s ease, box-shadow 0.3s ease;"
+             onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='var(--shadow-lg)'"
+             onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='var(--shadow-md)'">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
                 <div>
-                    <p class="text-sm text-gray-500">{{ $result->created_at->format('F d, Y \a\t g:i A') }}</p>
-                    <p class="text-xs text-gray-400">{{ $result->created_at->diffForHumans() }}</p>
+                    <p style="color: var(--text-secondary); font-size: var(--font-sm); margin-bottom: 0.25rem;">
+                        {{ $result->created_at->format('F d, Y \a\t g:i A') }}
+                    </p>
+                    <p style="color: var(--text-muted); font-size: var(--font-xs);">
+                        {{ $result->created_at->diffForHumans() }}
+                    </p>
                 </div>
-                <div class="text-center">
-                    <div class="inline-block px-6 py-2 bg-[#c4d5b8] rounded-full">
-                        <span class="text-2xl font-bold text-[#5a6c4f]">{{ $result->total_score }}</span>
-                    </div>
-                    <p class="text-xs text-gray-500 mt-1">Score</p>
+                <div style="text-align: center; padding: 1rem 1.5rem; background: var(--gradient-main); border-radius: var(--radius-full); min-width: 100px;">
+                    <span style="font-size: var(--font-2xl); font-weight: var(--font-bold); color: white;">{{ $result->total_score }}</span>
+                    <p style="font-size: var(--font-xs); color: white; opacity: 0.9; margin-top: 0.25rem;">Score</p>
                 </div>
             </div>
 
-            <div class="border-t pt-4">
-                <p class="text-sm text-gray-700 mb-3 font-medium">AI Insights:</p>
-                <div class="bg-[#f0f4ed] rounded p-4">
-                    <p class="text-sm text-gray-700 line-clamp-3">
+            <div style="border-top: 2px solid var(--border-light); padding-top: 1.5rem;">
+                <p style="font-size: var(--font-base); font-weight: var(--font-semibold); margin-bottom: 1rem; color: var(--text-primary);">
+                    🤖 AI Insights:
+                </p>
+                <div style="background: var(--bg-light-gray); padding: 1.5rem; border-radius: var(--radius-md); margin-bottom: 1rem;">
+                    <p style="color: var(--text-secondary); line-height: 1.7; margin: 0;">
                         {{ Str::limit($result->ai_response, 200) }}
                     </p>
                 </div>
             </div>
 
-            <div class="mt-4 flex gap-2">
+            <div style="margin-top: 1rem;">
                 <button onclick="toggleDetails({{ $result->id }})" 
-                        class="text-sm text-[#5a6c4f] hover:underline">
-                    View Full Response
+                        style="color: var(--primary-purple); font-size: var(--font-sm); font-weight: var(--font-medium); background: none; border: none; cursor: pointer; text-decoration: underline; padding: 0;">
+                    {{ $detailsVisible[$result->id] ?? false ? 'Hide' : 'View' }} Full Response
                 </button>
             </div>
 
-            <div id="details-{{ $result->id }}" class="hidden mt-4 border-t pt-4">
-                <p class="text-sm text-gray-700 leading-relaxed whitespace-pre-line">
+            <div id="details-{{ $result->id }}" style="display: none; margin-top: 1.5rem; border-top: 2px solid var(--border-light); padding-top: 1.5rem;">
+                <p style="color: var(--text-primary); line-height: 1.8; white-space: pre-line; margin: 0;">
                     {{ $result->ai_response }}
                 </p>
             </div>
@@ -60,7 +73,7 @@
         @endforeach
     </div>
 
-    <div class="mt-6">
+    <div style="margin-top: 2rem; display: flex; justify-content: center;">
         {{ $results->links() }}
     </div>
     @endif
@@ -69,7 +82,27 @@
 <script>
 function toggleDetails(id) {
     const details = document.getElementById('details-' + id);
-    details.classList.toggle('hidden');
+    const button = event.target;
+    
+    if (details.style.display === 'none') {
+        details.style.display = 'block';
+        button.textContent = 'Hide Full Response';
+    } else {
+        details.style.display = 'none';
+        button.textContent = 'View Full Response';
+    }
 }
 </script>
+
+<style>
+    @media (max-width: 768px) {
+        .container {
+            padding: 1rem;
+        }
+        
+        .card {
+            padding: 1.5rem !important;
+        }
+    }
+</style>
 @endsection

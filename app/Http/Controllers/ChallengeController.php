@@ -20,8 +20,15 @@ public function create()
 
 public function store(Request $request)
 {
+    $request->validate([
+        'title' => 'required',
+        'description' => 'required',
+        'points' => 'nullable|integer',
+        'duration' => 'nullable|string',
+    ]);
+    
     Challenge::create($request->all());
-    return redirect('/challenges');
+    return redirect()->route('challenges.index')->with('success', 'Challenge created!');
 }
 
 public function show($id)
@@ -38,15 +45,22 @@ public function edit($id)
 
 public function update(Request $request, $id)
 {
+    $request->validate([
+        'title' => 'required',
+        'description' => 'required',
+        'points' => 'nullable|integer',
+        'duration' => 'nullable|string',
+    ]);
+    
     $challenge = Challenge::findOrFail($id);
     $challenge->update($request->all());
-    return redirect('/challenges');
+    return redirect()->route('challenges.index')->with('success', 'Challenge updated!');
 }
 
 public function destroy($id)
 {
     $challenge = Challenge::findOrFail($id);
     $challenge->delete();
-    return redirect('/challenges');
+    return redirect()->route('challenges.index')->with('success', 'Challenge deleted!');
 }
 }
