@@ -2,24 +2,53 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\User;
+use App\Models\QuizQuestion;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        // Create admin user
+        User::create([
+            'name' => 'Admin User',
+            'email' => 'admin@telurmind.com',
+            'password' => Hash::make('password'),
+            'role' => 'admin',
+            'is_active' => true,
         ]);
+
+        // Create regular user
+        User::create([
+            'name' => 'Charles',
+            'email' => 'charles@telurmind.com',
+            'password' => Hash::make('password'),
+            'role' => 'user',
+            'is_active' => true,
+        ]);
+
+        // Create quiz questions
+        $questions = [
+            'I feel overwhelmed by my daily responsibilities',
+            'I have difficulty sleeping or staying asleep',
+            'I feel anxious or worried throughout the day',
+            'I find it hard to concentrate on tasks',
+            'I feel disconnected from friends and family',
+            'I experience sudden mood changes',
+            'I have persistent feelings of sadness',
+            'I find it difficult to enjoy activities I used to love',
+            'I feel physically tired even after resting',
+            'I have negative thoughts about myself',
+        ];
+
+        foreach ($questions as $index => $question) {
+            QuizQuestion::create([
+                'question' => $question,
+                'order' => $index + 1,
+                'is_active' => true,
+            ]);
+        }
     }
 }
