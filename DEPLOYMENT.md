@@ -9,23 +9,35 @@
 2. Connect your GitHub repository
 3. Create a new "Web Service"
 4. Select your repository
-5. Configure:
-   - **Environment**: PHP
-   - **Build Command**: `composer install --no-dev --optimize-autoloader && php artisan config:cache && php artisan route:cache && php artisan view:cache`
-   - **Start Command**: `php artisan serve --host=0.0.0.0 --port=$PORT`
-6. Add environment variables:
+5. **Important**: Since PHP is not directly listed, use **Docker**:
+   - **Environment**: Docker
+   - Render will automatically detect the `Dockerfile` in your repo
+6. Add environment variables in Render dashboard:
    - `APP_ENV=production`
    - `APP_DEBUG=false`
-   - `APP_KEY` (generate with `php artisan key:generate`)
+   - `APP_KEY` (generate with: `php artisan key:generate --show` or use Render's auto-generate)
+   - `APP_URL=https://your-app-name.onrender.com` (replace with your actual URL)
    - `DB_CONNECTION=mysql`
-   - `DB_HOST`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD` (from Render database)
+   - `DB_HOST` (from Render database - internal hostname)
+   - `DB_DATABASE` (from Render database)
+   - `DB_USERNAME` (from Render database)
+   - `DB_PASSWORD` (from Render database)
+   - `DB_PORT=3306`
    - `GEMINI_API_KEY=your_key_here`
-7. Create a PostgreSQL or MySQL database in Render
-8. Deploy!
+   - `SESSION_DRIVER=database`
+7. Create a **PostgreSQL** database in Render (MySQL also available but PostgreSQL is recommended):
+   - Go to "New +" → "PostgreSQL"
+   - Note the internal database URL
+8. After first deployment, run migrations:
+   - Go to your service → "Shell" tab
+   - Run: `php artisan migrate --force`
+   - Run: `php artisan db:seed --force` (optional)
+9. Deploy!
 
 **Free Tier Limits:**
 - 750 hours/month (enough for most projects)
 - Spins down after 15 min inactivity (first request may be slow)
+- 512MB RAM
 
 ---
 
