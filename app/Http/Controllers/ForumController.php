@@ -36,9 +36,14 @@ class ForumController extends Controller
             'message' => 'required',
         ]);
 
-        Forum::create($request->all());
+        Forum::create([
+            'title' => $request->title,
+            'category' => $request->category,
+            'message' => $request->message,
+            'user_id' => auth()->id(),
+        ]);
 
-        return redirect('/forum')->with('success', 'Post created!');
+        return redirect()->route('forum.index')->with('success', 'Post created!');
     }
 
     // Show single post
@@ -65,15 +70,32 @@ class ForumController extends Controller
         ]);
 
         $post = Forum::findOrFail($id);
-        $post->update($request->all());
+        
+        // Ensure user can only update their own posts (or admin)
+        if ($post->user_id !== auth()->id() && !auth()->user()->isAdmin()) {
+            abort(403, 'Unauthorized action.');
+        }
+        
+        $post->update([
+            'title' => $request->title,
+            'category' => $request->category,
+            'message' => $request->message,
+        ]);
 
-        return redirect('/forum')->with('success', 'Post updated!');
+        return redirect()->route('forum.index')->with('success', 'Post updated!');
     }
 
     // Delete post
     public function destroy($id)
     {
-        Forum::findOrFail($id)->delete();
-        return redirect('/forum')->with('success', 'Post deleted!');
+        $post = Forum::findOrFail($id);
+        
+        // Ensure user can only delete their own posts (or admin)
+        if ($post->user_id !== auth()->id() && !auth()->user()->isAdmin()) {
+            abort(403, 'Unauthorized action.');
+        }
+        
+        $post->delete();
+        return redirect()->route('forum.index')->with('success', 'Post deleted!');
     }
 }

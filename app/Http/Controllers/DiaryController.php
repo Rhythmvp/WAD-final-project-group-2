@@ -9,7 +9,7 @@ class DiaryController extends Controller
 {
     public function index()
     {
-        $entries = Diary::latest()->get();
+        $entries = Diary::where('user_id', auth()->id())->latest()->get();
         return view('mind.diary_index', compact('entries'));
     }
 
@@ -25,8 +25,12 @@ class DiaryController extends Controller
             'mood' => 'required',
         ]);
 
-        Diary::create($request->all());
-        return redirect('/diary')->with('success', 'Diary entry saved!');
+        Diary::create([
+            'entry' => $request->entry,
+            'mood' => $request->mood,
+            'user_id' => auth()->id(),
+        ]);
+        return redirect()->route('diary.index')->with('success', 'Diary entry saved!');
     }
 
     public function show($id)
@@ -49,14 +53,30 @@ class DiaryController extends Controller
         ]);
 
         $entry = Diary::findOrFail($id);
-        $entry->update($request->all());
+        
+        // Ensure user can only update their own entries
+        if ($entry->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized action.');
+        }
+        
+        $entry->update([
+            'entry' => $request->entry,
+            'mood' => $request->mood,
+        ]);
 
-        return redirect('/diary')->with('success', 'Entry updated!');
+        return redirect()->route('diary.index')->with('success', 'Entry updated!');
     }
 
     public function destroy($id)
     {
-        Diary::findOrFail($id)->delete();
-        return redirect('/diary')->with('success', 'Entry deleted!');
+        $entry = Diary::findOrFail($id);
+        
+        // Ensure user can only delete their own entries
+        if ($entry->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized action.');
+        }
+        
+        $entry->delete();
+        return redirect()->route('diary.index')->with('success', 'Entry deleted!');
     }
 }
