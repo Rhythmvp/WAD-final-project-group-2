@@ -1,39 +1,62 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Edit Quiz Question</title>
-</head>
-<body>
+@extends('layouts.app')
 
-<h1>Edit Quiz Question</h1>
+@section('content')
+<div class="container" style="max-width: 700px; margin: 2rem auto;">
+    <div style="margin-bottom: 2rem;">
+        <h1 style="font-size: var(--font-3xl, 2rem); font-weight: var(--font-bold, 700); color: var(--text-primary, #2C3E50); margin-bottom: 0.5rem;">
+            ✏️ Edit Entry
+        </h1>
+        <p style="color: var(--text-secondary, #5A6C7D); font-size: var(--font-base, 1rem);">
+            Update your diary entry
+        </p>
+    </div>
 
-<form action="/quiz/{{ $question->id }}" method="POST">
-    @csrf
-    @method('PUT')
+    <div class="card" style="padding: 2.5rem; background: var(--bg-white, #FFFFFF); border: 1px solid var(--border-light, #E0E7ED);">
+        <form action="{{ route('diary.update', $entry->id) }}" method="POST">
+            @csrf
+            @method('PUT')
 
-    <label>Question:</label><br>
-    <input type="text" name="question" value="{{ $question->question }}" required><br><br>
+            <div style="margin-bottom: 1.5rem;">
+                <label for="mood" class="form-label">How are you feeling?</label>
+                <select name="mood" 
+                        id="mood" 
+                        required
+                        class="form-input"
+                        style="cursor: pointer;">
+                    <option value="excellent" {{ $entry->mood === 'excellent' ? 'selected' : '' }}>😄 Excellent</option>
+                    <option value="good" {{ $entry->mood === 'good' ? 'selected' : '' }}>😊 Good</option>
+                    <option value="okay" {{ $entry->mood === 'okay' ? 'selected' : '' }}>😐 Okay</option>
+                    <option value="bad" {{ $entry->mood === 'bad' ? 'selected' : '' }}>😕 Bad</option>
+                    <option value="very bad" {{ $entry->mood === 'very bad' ? 'selected' : '' }}>😢 Very Bad</option>
+                </select>
+                @error('mood')
+                    <p style="color: var(--error, #E57373); font-size: var(--font-sm, 0.875rem); margin-top: 0.5rem;">{{ $message }}</p>
+                @enderror
+            </div>
 
-    <label>Option A:</label><br>
-    <input type="text" name="option_a" value="{{ $question->option_a }}"><br><br>
+            <div style="margin-bottom: 2rem;">
+                <label for="entry" class="form-label">Your Entry</label>
+                <textarea name="entry" 
+                          id="entry" 
+                          rows="10" 
+                          required
+                          class="form-input"
+                          placeholder="Write about your day, thoughts, feelings..."
+                          style="resize: vertical; min-height: 200px; font-family: var(--font-primary);">{{ old('entry', $entry->entry) }}</textarea>
+                @error('entry')
+                    <p style="color: var(--error, #E57373); font-size: var(--font-sm, 0.875rem); margin-top: 0.5rem;">{{ $message }}</p>
+                @enderror
+            </div>
 
-    <label>Option B:</label><br>
-    <input type="text" name="option_b" value="{{ $question->option_b }}"><br><br>
-
-    <label>Option C:</label><br>
-    <input type="text" name="option_c" value="{{ $question->option_c }}"><br><br>
-
-    <label>Option D:</label><br>
-    <input type="text" name="option_d" value="{{ $question->option_d }}"><br><br>
-
-    <label>Correct Answer:</label><br>
-    <input type="text" name="correct_answer" value="{{ $question->correct_answer }}"><br><br>
-
-    <button type="submit">Update Question</button>
-</form>
-
-<br>
-<a href="/quiz">Back</a>
-
-</body>
-</html>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <button type="submit" class="btn btn-primary" style="background: var(--mind-primary, #9B8FB8); padding: 1rem 2rem;">
+                    Update Entry
+                </button>
+                <a href="{{ route('diary.index') }}" class="btn btn-soft" style="padding: 1rem 2rem;">
+                    Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+@endsection
