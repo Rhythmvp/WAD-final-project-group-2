@@ -7,54 +7,63 @@ use Illuminate\Http\Request;
 
 class ClinicController extends Controller
 {
-    public function index() {
-    $clinics = Clinic::all();
-    return view('clinics.clinic_index', compact('clinics'));
-}
+    public function index()
+    {
+        $clinics = Clinic::latest()->get();
+        return view('clinics.index', compact('clinics'));
+    }
 
-public function create() {
-    return view('clinics.clinic_create');
-}
+    public function create()
+    {
+        return view('clinics.create');
+    }
 
-public function store(Request $request) {
-    $request->validate([
-        'name' => 'required',
-        'location' => 'required',
-        'phone' => 'nullable|string',
-        'hours' => 'nullable|string',
-    ]);
-    
-    Clinic::create($request->all());
-    return redirect()->route('clinics.index')->with('success', 'Clinic created!');
-}
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'location' => 'required',
+            'phone' => 'nullable',
+            'hours' => 'nullable',
+        ]);
 
-public function show($id) {
-    $clinic = Clinic::findOrFail($id);
-    return view('clinics.clinic_show', compact('clinic'));
-}
+        Clinic::create($request->all());
 
-public function edit($id) {
-    $clinic = Clinic::findOrFail($id);
-    return view('clinics.clinic_edit', compact('clinic'));
-}
+        return redirect()
+            ->route('clinics.index')
+            ->with('success', 'Clinic added successfully!');
+    }
 
-public function update(Request $request, $id) {
-    $request->validate([
-        'name' => 'required',
-        'location' => 'required',
-        'phone' => 'nullable|string',
-        'hours' => 'nullable|string',
-    ]);
-    
-    $clinic = Clinic::findOrFail($id);
-    $clinic->update($request->all());
-    return redirect()->route('clinics.index')->with('success', 'Clinic updated!');
-}
+    public function edit($id)
+    {
+        $clinic = Clinic::findOrFail($id);
+        return view('clinics.edit', compact('clinic'));
+    }
 
-public function destroy($id) {
-    $clinic = Clinic::findOrFail($id);
-    $clinic->delete();
-    return redirect()->route('clinics.index')->with('success', 'Clinic deleted!');
-}
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required',
+            'location' => 'required',
+            'phone' => 'nullable',
+            'hours' => 'nullable',
+        ]);
 
+        $clinic = Clinic::findOrFail($id);
+        $clinic->update($request->all());
+
+        return redirect()
+            ->route('clinics.index')
+            ->with('success', 'Clinic updated successfully!');
+    }
+
+    public function destroy($id)
+    {
+        $clinic = Clinic::findOrFail($id);
+        $clinic->delete();
+
+        return redirect()
+            ->route('clinics.index')
+            ->with('success', 'Clinic deleted successfully!');
+    }
 }
