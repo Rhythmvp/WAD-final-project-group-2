@@ -1,52 +1,91 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\ChallengeController;
 use App\Http\Controllers\ClinicController;
 use App\Http\Controllers\DiaryController;
 use App\Http\Controllers\ForumController;
-use Illuminate\Support\Facades\Route;
 
-// Public routes
+/*
+|--------------------------------------------------------------------------
+| Public routes
+|--------------------------------------------------------------------------
+*/
 Route::get('/', function () {
     return view('home.index');
 })->name('home');
 
-// Quiz routes (require authentication)
+/*
+|--------------------------------------------------------------------------
+| Quiz routes (auth)
+|--------------------------------------------------------------------------
+*/
 Route::middleware(['auth'])->group(function () {
     Route::get('/quiz', [QuizController::class, 'index'])->name('quiz.index');
     Route::post('/quiz/submit', [QuizController::class, 'submit'])->name('quiz.submit');
     Route::get('/quiz/history', [QuizController::class, 'history'])->name('quiz.history');
 });
 
-// Challenge routes (require authentication)
+/*
+|--------------------------------------------------------------------------
+| Challenges routes (auth)
+|--------------------------------------------------------------------------
+*/
 Route::middleware(['auth'])->group(function () {
     Route::resource('challenges', ChallengeController::class);
 });
 
-// Clinic routes (require authentication)
+/*
+|--------------------------------------------------------------------------
+| Clinics routes (auth) ✅ SAFEST
+|--------------------------------------------------------------------------
+*/
 Route::middleware(['auth'])->group(function () {
-    Route::resource('clinics', ClinicController::class);
+    Route::resource('clinics', ClinicController::class)
+        ->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
 });
 
-// Diary routes (require authentication)
+/*
+|--------------------------------------------------------------------------
+| Diary routes (auth)
+|--------------------------------------------------------------------------
+*/
 Route::middleware(['auth'])->group(function () {
     Route::resource('diary', DiaryController::class);
 });
 
-// Forum routes (require authentication)
+/*
+|--------------------------------------------------------------------------
+| Forum routes (auth)
+|--------------------------------------------------------------------------
+*/
 Route::middleware(['auth'])->group(function () {
     Route::resource('forum', ForumController::class);
 });
 
-// Admin routes (require authentication and admin role)
-Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::resource('users', UserController::class);
-    Route::get('/', function () {
-        return view('admin.admin');
-    })->name('dashboard');
-});
+/*
+|--------------------------------------------------------------------------
+| Admin routes (auth + admin)
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth', 'admin'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
 
-// Auth routes
-require __DIR__.'/auth.php';
+        Route::get('/', function () {
+            return view('admin.admin');
+        })->name('dashboard');
+
+        Route::resource('users', UserController::class)
+            ->only(['index', 'edit', 'update', 'destroy']);
+    });
+
+/*
+|--------------------------------------------------------------------------
+| Auth routes
+|--------------------------------------------------------------------------
+*/
+require __DIR__ . '/auth.php';
