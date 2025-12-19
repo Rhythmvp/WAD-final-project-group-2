@@ -258,7 +258,7 @@
     </div>
 
     <!-- Footer -->
-    <footer>
+    <footer style="width: 100%; box-sizing: border-box; padding: 2rem; background: var(--bg-white, #FFFFFF); border-top: 1px solid var(--border-light, #E0E7ED); text-align: center; color: var(--text-muted, #8B9AAB);">
         <p style="margin: 0;">&copy; {{ date('Y') }} TelU Mind - Campus Wellness Platform. All rights reserved.</p>
         <p style="margin: var(--space-2, 0.5rem) 0 0 0; font-size: var(--font-xs, 0.75rem); opacity: 0.8;">
             Supporting student mental health and wellbeing

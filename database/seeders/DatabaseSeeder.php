@@ -11,24 +11,6 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // Create admin user
-        User::create([
-            'name' => 'Admin User',
-            'email' => 'admin@telurmind.com',
-            'password' => Hash::make('password'),
-            'role' => 'admin',
-            'is_active' => true,
-        ]);
-
-        // Create regular user
-        User::create([
-            'name' => 'Charles',
-            'email' => 'charles@telurmind.com',
-            'password' => Hash::make('password'),
-            'role' => 'user',
-            'is_active' => true,
-        ]);
-
         // Create quiz questions
         $questions = [
             'I feel overwhelmed by my daily responsibilities',
