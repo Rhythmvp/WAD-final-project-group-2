@@ -98,4 +98,6 @@ class ForumController extends Controller
         $post->delete();
         return redirect()->route('forum.index')->with('success', 'Post deleted!');
     }
+
+    
 }

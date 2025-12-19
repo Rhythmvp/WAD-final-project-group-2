@@ -1,35 +1,70 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Edit Post</title>
-</head>
-<body>
+@extends('layouts.app')
 
-<h1>Edit Discussion</h1>
+@section('content')
+<div style="max-width: 700px; margin: 0 auto;">
+    <div class="card" style="padding: 30px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.08);">
 
-<form action="/forum/{{ $post->id }}" method="POST">
-    @csrf
-    @method('PUT')
+        <h1 style="margin-bottom: 20px;">Edit Discussion</h1>
 
-    <label>Title:</label><br>
-    <input type="text" name="title" value="{{ $post->title }}" required><br><br>
+        <form action="{{ route('forum.update', $post->id) }}" method="POST">
+            @csrf
+            @method('PUT')
 
-    <label>Category:</label><br>
-    <select name="category">
-        <option value="Stress & Academics" {{ $post->category == 'Stress & Academics' ? 'selected' : '' }}>Stress & Academics</option>
-        <option value="Mental & Emotional Support" {{ $post->category == 'Mental & Emotional Support' ? 'selected' : '' }}>Mental & Emotional Support</option>
-        <option value="Social & Friendship Issues" {{ $post->category == 'Social & Friendship Issues' ? 'selected' : '' }}>Social & Friendship Issues</option>
-        <option value="Lifestyle & Healthy Habits" {{ $post->category == 'Lifestyle & Healthy Habits' ? 'selected' : '' }}>Lifestyle & Healthy Habits</option>
-    </select><br><br>
+            <div style="margin-bottom: 15px;">
+                <label><strong>Title</strong></label>
+                <input 
+                    type="text" 
+                    name="title" 
+                    value="{{ old('title', $post->title) }}" 
+                    required
+                    style="width:100%; padding:12px; border-radius:8px; border:1px solid #ccc;"
+                >
+            </div>
 
-    <label>Message:</label><br>
-    <textarea name="message" rows="5" required>{{ $post->message }}</textarea><br><br>
+            <div style="margin-bottom: 15px;">
+                <label><strong>Category</strong></label>
+                <select 
+                    name="category" 
+                    style="width:100%; padding:12px; border-radius:8px; border:1px solid #ccc;"
+                >
+                    <option value="Stress & Academics" {{ $post->category == 'Stress & Academics' ? 'selected' : '' }}>
+                        Stress & Academics
+                    </option>
+                    <option value="Mental Health" {{ $post->category == 'Mental Health' ? 'selected' : '' }}>
+                        Mental Health
+                    </option>
+                    <option value="Lifestyle" {{ $post->category == 'Lifestyle' ? 'selected' : '' }}>
+                        Lifestyle
+                    </option>
+                </select>
+            </div>
 
-    <button type="submit">Update Post</button>
-</form>
+            <div style="margin-bottom: 20px;">
+                <label><strong>Message</strong></label>
+                <textarea 
+                    name="message" 
+                    rows="5"
+                    style="width:100%; padding:12px; border-radius:8px; border:1px solid #ccc;"
+                >{{ old('message', $post->message) }}</textarea>
+            </div>
 
-<br>
-<a href="/forum">Back</a>
+            <div style="display:flex; gap:10px;">
+                <button 
+                    type="submit"
+                    style="padding:10px 18px; background:#6B9BD1; color:white; border:none; border-radius:8px;"
+                >
+                    Update Post
+                </button>
 
-</body>
-</html>
+                <a 
+                    href="{{ route('forum.index') }}"
+                    style="padding:10px 18px; border-radius:8px; background:#eee; text-decoration:none; color:#333;"
+                >
+                    Cancel
+                </a>
+            </div>
+        </form>
+
+    </div>
+</div>
+@endsection

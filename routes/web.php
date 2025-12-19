@@ -41,12 +41,32 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // Admin routes (require authentication and admin role)
-Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::resource('users', UserController::class);
-    Route::get('/', function () {
-        return view('admin.admin');
-    })->name('dashboard');
+Route::middleware(['auth', 'admin'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+
+        // Dashboard
+        Route::get('/', function () {
+            return view('admin.admin');
+        })->name('dashboard');
+
+        // Users
+        Route::get('/users', [UserController::class, 'index'])->name('users');
+
+        // Forum moderation
+        Route::get('/forum', [ForumController::class, 'adminIndex'])->name('forum');
+
+        // Challenges
+        Route::get('/challenges', [ChallengeController::class, 'adminIndex'])->name('challenges');
+
+        // Clinics
+        Route::get('/clinics', [ClinicController::class, 'adminIndex'])->name('clinics');
+
+        // Quiz
+        Route::get('/quiz', [QuizController::class, 'adminIndex'])->name('quiz');
 });
+
 
 // Auth routes
 require __DIR__.'/auth.php';

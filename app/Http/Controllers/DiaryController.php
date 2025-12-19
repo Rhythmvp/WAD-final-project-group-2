@@ -79,4 +79,6 @@ class DiaryController extends Controller
         $entry->delete();
         return redirect()->route('diary.index')->with('success', 'Entry deleted!');
     }
+
+    
 }

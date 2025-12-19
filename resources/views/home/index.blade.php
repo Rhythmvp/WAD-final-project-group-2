@@ -47,6 +47,7 @@
         @endauth
     </div>
     
+    
     <div style="flex: 1; display: flex; justify-content: center; align-items: center; z-index: 1; padding-left: 2rem;">
         <div style="position: relative;">
             <img src="{{ asset('mental-health-awareness-concept_52683-37916.avif') }}" 

@@ -63,4 +63,11 @@ public function destroy($id)
     $challenge->delete();
     return redirect()->route('challenges.index')->with('success', 'Challenge deleted!');
 }
+
+public function adminIndex()
+{
+    $challenges = Challenge::all();
+    return view('admin.challenges.index', compact('challenges'));
+}
+
 }

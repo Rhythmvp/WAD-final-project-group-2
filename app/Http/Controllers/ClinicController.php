@@ -57,4 +57,11 @@ public function destroy($id) {
     return redirect()->route('clinics.index')->with('success', 'Clinic deleted!');
 }
 
+public function adminIndex()
+{
+    $clinics = Clinic::latest()->get();
+    return view('admin.clinics.index', compact('clinics'));
+
+}
+
 }

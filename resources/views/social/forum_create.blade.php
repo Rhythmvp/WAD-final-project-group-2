@@ -1,34 +1,77 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Create Post</title>
-</head>
-<body>
+@extends('layouts.app')
 
-<h1>Create a New Discussion</h1>
+@section('content')
 
-<form action="/forum" method="POST">
-    @csrf
+<div class="card">
+    <h1 style="margin-bottom:20px;">Create a New Discussion</h1>
 
-    <label>Title:</label><br>
-    <input type="text" name="title" required><br><br>
+    {{-- 🔴 SHOW VALIDATION ERRORS (VERY IMPORTANT) --}}
+    @if ($errors->any())
+        <div style="background:#fdecea; color:#b71c1c; padding:15px; border-radius:8px; margin-bottom:20px;">
+            <ul style="margin:0; padding-left:20px;">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
-    <label>Category:</label><br>
-    <select name="category">
-        <option value="Stress & Academics">Stress & Academics</option>
-        <option value="Mental & Emotional Support">Mental & Emotional Support</option>
-        <option value="Social & Friendship Issues">Social & Friendship Issues</option>
-        <option value="Lifestyle & Healthy Habits">Lifestyle & Healthy Habits</option>
-    </select><br><br>
+    <form action="{{ route('forum.store') }}" method="POST">
+        @csrf
 
-    <label>Message:</label><br>
-    <textarea name="message" rows="5" required></textarea><br><br>
+        {{-- TITLE --}}
+        <div style="margin-bottom: 15px;">
+            <label style="font-weight:500;">Title</label>
+            <input 
+                type="text" 
+                name="title" 
+                value="{{ old('title') }}"
+                required 
+                style="width:100%; padding:10px; border-radius:8px; border:1px solid #ccc;"
+            >
+        </div>
 
-    <button type="submit">Create Post</button>
-</form>
+        {{-- CATEGORY --}}
+        <div style="margin-bottom: 15px;">
+            <label style="font-weight:500;">Category</label>
+            <select 
+                name="category" 
+                style="width:100%; padding:10px; border-radius:8px; border:1px solid #ccc;"
+                required
+            >
+                <option value="">-- Choose Category --</option>
+                <option value="Stress & Academics" {{ old('category') == 'Stress & Academics' ? 'selected' : '' }}>
+                    Stress & Academics
+                </option>
+                <option value="Mental Health" {{ old('category') == 'Mental Health' ? 'selected' : '' }}>
+                    Mental Health
+                </option>
+                <option value="Lifestyle" {{ old('category') == 'Lifestyle' ? 'selected' : '' }}>
+                    Lifestyle
+                </option>
+            </select>
+        </div>
 
-<br>
-<a href="/forum">Back</a>
+        {{-- MESSAGE --}}
+        <div style="margin-bottom: 20px;">
+            <label style="font-weight:500;">Message</label>
+            <textarea 
+                name="message" 
+                rows="5" 
+                required
+                style="width:100%; padding:10px; border-radius:8px; border:1px solid #ccc;"
+            >{{ old('message') }}</textarea>
+        </div>
 
-</body>
-</html>
+        {{-- ACTIONS --}}
+        <button type="submit" class="btn">
+            Create Discussion
+        </button>
+
+        <a href="{{ route('forum.index') }}" style="margin-left:15px;">
+            Back
+        </a>
+    </form>
+</div>
+
+@endsection
