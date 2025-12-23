@@ -41,4 +41,7 @@ class User extends Authenticatable
     {
         return $this->role === 'admin';
     }
+    public function challenges() {
+    return $this->belongsToMany(Challenge::class)->withPivot('progress', 'status')->withTimestamps();
+}
 }

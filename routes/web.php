@@ -22,7 +22,10 @@ Route::middleware(['auth'])->group(function () {
 
 // Challenge routes (require authentication)
 Route::middleware(['auth'])->group(function () {
-    Route::resource('challenges', ChallengeController::class);
+    Route::get('/studentchallenges', [ChallengeController::class, 'studentIndex'])->name('challenges.index');
+    Route::get('/studentchallenges/{challenge}', [ChallengeController::class, 'studentShow'])->name('challenges.show');
+    Route::post('/studentchallenges/{id}/join', [ChallengeController::class, 'join'])->name('challenges.join');
+    Route::post('/studentchallenges/{id}/update-progress', [ChallengeController::class, 'updateProgress'])->name('challenges.updateProgress');
 });
 
 // Clinic routes (require authentication)
@@ -46,6 +49,13 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/', function () {
         return view('admin.admin');
     })->name('dashboard');
+    Route::get('/challenges', [ChallengeController::class, 'index'])->name('challenges.index');
+    Route::get('/challenges/create', [ChallengeController::class, 'create'])->name('challenges.create');
+    Route::get('/challenges/{challenge}', [ChallengeController::class, 'show'])->name('challenges.show');
+    Route::post('/challenges', [ChallengeController::class, 'store'])->name('challenges.store');
+    Route::get('/challenges/{challenge}/edit', [ChallengeController::class, 'edit'])->name('challenges.edit');
+    Route::put('/challenges/{challenge}', [ChallengeController::class, 'update'])->name('challenges.update');
+    Route::delete('/challenges/{challenge}', [ChallengeController::class, 'destroy'])->name('challenges.destroy');
 });
 
 // Auth routes
