@@ -158,7 +158,7 @@ DB_USERNAME=your-db-user
 DB_PASSWORD=your-db-password
 SESSION_DRIVER=database
 SESSION_LIFETIME=120
-GEMINI_API_KEY=AIzaSyDMAg7F-30d1SIHVXXxD_DvobzZCa6_Nlw
+GEMINI_API_KEY=
 ```
 
 ### Step 5: Deploy
