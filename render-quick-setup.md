@@ -54,7 +54,7 @@ DB_PASSWORD=paste_password_here
 ```
 SESSION_DRIVER=database
 SESSION_LIFETIME=120
-GEMINI_API_KEY=AIzaSyDMAg7F-30d1SIHVXXxD_DvobzZCa6_Nlw
+GEMINI_API_KEY=
 ```
 
 ## Step 4: Deploy & Migrate
