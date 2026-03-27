@@ -56,7 +56,7 @@ SESSION_LIFETIME=120
 ### 5. Gemini API Key
 
 ```
-GEMINI_API_KEY=AIzaSyDMAg7F-30d1SIHVXXxD_DvobzZCa6_Nlw
+GEMINI_API_KEY=
 ```
 
 ### 6. Logging (Optional)
@@ -107,7 +107,7 @@ DB_USERNAME=telu_mind_user
 DB_PASSWORD=your_db_password_here
 SESSION_DRIVER=database
 SESSION_LIFETIME=120
-GEMINI_API_KEY=AIzaSyDMAg7F-30d1SIHVXXxD_DvobzZCa6_Nlw
+GEMINI_API_KEY=
 LOG_CHANNEL=stack
 LOG_LEVEL=error
 ```
