@@ -2,17 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Challenge extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
-        'title',
+        'name',
         'description',
-        'points',
-        'duration',
+        'goal',
+        'duration_days',
+        'difficulty',
+        'image_path',
     ];
 }
